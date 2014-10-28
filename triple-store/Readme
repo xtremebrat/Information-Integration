@@ -1,0 +1,3 @@
+Program that runs a dbpedia sparql query for all the private universities in California and created a local triple store from those results.
+Triple store quried locally to obtain the colleges within 200 miles from UCLA.
+List is saved in a file.
