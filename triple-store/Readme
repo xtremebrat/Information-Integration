@@ -1,3 +1,100 @@
 Program that runs a dbpedia sparql query for all the private universities in California and created a local triple store from those results.
 Triple store quried locally to obtain the colleges within 200 miles from UCLA.
 List is saved in a file.
+
+This was the query that retrieved all private universities in California:
+PREFIX dbpedia-owl: http://dbpedia.org/ontology/ PREFIX dbpedia: http://dbpedia.org/resource/ PREFIX geo: http://www.w3.org/2003/01/geo/wgs84_pos# PREFIX rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns# PREFIX rdfs: http://www.w3.org/2000/01/rdf-schema# SELECT DISTINCT ?University ?City ?lat ?long
+WHERE
+{
+{
+?univ
+dbpedia-owl:type dbpedia:Private_university;
+dbpedia-owl:city ?ci;
+rdfs:label ?University;
+dbpedia-owl:state dbpedia:California.
+?ci rdfs:label ?City.
+FILTER(LANGMATCHES(LANG(?University), "en"))
+FILTER(LANGMATCHES(LANG(?City), "en"))
+OPTIONAL {?univ geo:lat ?lat }
+OPTIONAL {?univ geo:long ?long
+}
+}
+}
+The cases where some universities did not have values for latitude or longitudes were handled by using OPTIONAL.
+In java the query string was created like this:
+String queryString = "PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>\n"
++ "PREFIX dbpedia: <http://dbpedia.org/resource/>\n"
++ "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n"
++ "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
++ "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
++ "SELECT DISTINCT ?University ?City ?lat ?long\n"
++ "WHERE { { ?univ\n"
++ "dbpedia-owl:type dbpedia:Private_university;\n"
++ "dbpedia-owl:city ?ci;\n"
++ "rdfs:label ?University;\n"
++ "dbpedia-owl:state dbpedia:California.\n"
++ "?ci rdfs:label ?City.\n"
++ "FILTER(LANGMATCHES(LANG(?University), \"en\"))\n"
++ "FILTER(LANGMATCHES(LANG(?City), \"en\"))\n"
++ "OPTIONAL {?univ geo:lat ?lat }\n"
++ "OPTIONAL {?univ geo:long ?long } } }";
+
+How the Program works:
+- Sesame was installed and a local repository was created.
+- Obtained data from DBpedia. Used the query shown above and obtained the data from dbpedia and stored it in a file called output.txt, in a folder called data in the workspace. Used Jena to execute the query.
+- Utilizing the appropriated properties from Schema.org, the data was converted and stored as turtle triples in the repository using CONSTRUCT.
+- Executed the local query to the repository and carried out the apt calculations to list the universities that are within 200 miles of UCLA.
+- Obtained the latitude and longitude of each university. Used the haversine formula to calculate the distances using the latitude and longitude. Converted the value to miles and compared. UCLA distance was obtained from DBpedia.
+
+List of Universities:
+- Pacific Coast University
+- Abraham Lincoln University
+- Platt College (San Diego)
+- Loyola Law School
+- College of Osteopathic Medicine of the Pacific
+- Western University of Health Sciences
+- University of La Verne College of Law
+- Pepperdine University
+- University of Santa Monica
+- Thomas Jefferson School of Law
+- Pacific States University
+- Point Loma Nazarene University
+- Loyola Marymount University
+- California InterContinental University
+- The Art Institute of California – Hollywood
+- Latin American Bible Institute, California
+- University of San Diego
+- Pepperdine University School of Law
+- Whittier Law School
+- California Western School of Law
+- University of La Verne
+- KGI School of Pharmacy
+- McMillan Academy of Law
+- Western University College of Podiatric Medicine
+- Chapman University School of Law
+- Western University College of Veterinary Medicine
+- San Diego Christian College
+- People's College of Law
+- USC School of Dramatic Arts
+- Southern California Institute of Law
+- Antioch University Santa Barbara
+- Santa Barbara & Ventura Colleges of Law
+- Loma Linda University School of Public Health
+- Anaheim University
+- University of San Diego School of Law
+- Azusa Pacific University
+- Chapman University
+- American Sports University
+- Whittier College
+- California Southern Law School
+- Glendale University College of Law
+- Western Sierra Law School
+- Loma Linda University School of Allied Health Professions
+- Vanguard University of Southern California
+- Brandman University
+- Graziadio School of Business and Management
+- NewSchool of Architecture and Design
+- USC Viterbi School of Engineering
+- Art Center College of Design
+- Southwestern Law School
+- Trinity Law School
