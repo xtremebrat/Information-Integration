@@ -1,0 +1,5 @@
+Selected Website: http://www.toledomuseum.org/
+
+I used jsoup (The java HTML parser http://jsoup.org/ ).
+I had decided that I was to use java as the base language for this assignment as I am most comfortable with it. Then after a bit of research jsoup seemed like the best tool to use hands on immediately with java as it had substantial documentation and support. It was fairly simple to conduct the required task with the help of jsoup because of its functionalities and its easy syntax.
+ApacheCommonsLang was used for certain string manipulations. JsonSimple was used to create the json object. Gson was used only to pretty print the entire json on the console.
