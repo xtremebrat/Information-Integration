@@ -1,0 +1,11 @@
+PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>
+PREFIX dbpprop: <http://dbpedia.org/property/>
+PREFIX dbres: <http://dbpedia.org/resource/>
+
+SELECT ?University ?Student_Population WHERE {
+  
+  ?Univ dbpedia-owl:numberOfStudents ?Student_Population;
+              rdfs:label ?University.
+    FILTER (regex(?Univ,"http://dbpedia.org/resource/University_of_California,_Los_Angeles") || regex(?Univ,"http://dbpedia.org/resource/University_of_Southern_California"))
+    FILTER(LANGMATCHES(LANG(?University), "en"))
+}
