@@ -1,0 +1,12 @@
+SPQRQL queries that query the DBPedia endpoint.
+
+
+Query1.	Get the student populations of USC and UCLA respectively using one query.
+
+Query2.	Get all the private universities in Los Angeles, and sort the universities in descending order of their student populations.
+
+Query3.	Get the campus types and their corresponding counts of all the public universities in Los Angeles.
+
+Query4.	Get the universities among all the private and public universities located in Los Angeles, which have been established for more than 100 years. Sort the universities in ascending order of established years.
+
+Query5.	Provide another query you are interested in and list the returned results. This query should be substantially different from the previous four.
