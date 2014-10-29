@@ -1,0 +1,22 @@
+PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>
+PREFIX dbpprop: <http://dbpedia.org/property/>
+PREFIX dbres: <http://dbpedia.org/resource/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX : <http://dbpedia.org/page>
+
+SELECT ?University ?est #(?year-?est as ?yrs)
+WHERE { 
+  BIND (now() AS ?date)
+  BIND (year(?date) AS ?year)  
+  
+{?univ 
+            dbpedia-owl:type ?type;           
+            dbpprop:established ?est;
+            rdfs:label ?University;
+            dbpedia-owl:city dbpedia:Los_Angeles.
+      FILTER (regex(?type,dbpedia:Private_university) || (regex(?type,dbpedia:Public_university)))  
+      FILTER (?est < 1915 || ?est < "1915-01-01"^^xsd:date)
+      FILTER(LANGMATCHES(LANG(?University), "en"))
+     
+  }
+} ORDER BY(str(?est))
