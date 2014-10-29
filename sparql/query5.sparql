@@ -1,0 +1,23 @@
+PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>
+PREFIX dbpprop: <http://dbpedia.org/property/>
+PREFIX dbres: <http://dbpedia.org/resource/>
+PREFIX : <http://dbpedia.org/page>
+
+SELECT ?Game ?rating
+WHERE { 
+{?game 
+      a dbpedia-owl:VideoGame;
+      dbpprop:genre	dbpedia:First-person_shooter;
+      rdfs:label ?Game;
+      dbpprop:1up ?grd;
+      dbpprop:ign ?rating.
+    
+    FILTER regex(?grd,"A")
+    FILTER (?rating > 9)
+    FILTER(LANGMATCHES(LANG(?Game), "en"))
+    
+  } 
+}  ORDER BY DESC (?rating)
+LIMIT 10
+
+#Get the Top 10 'A' grade , First-Person Shooter Video Games which have a rating greater than 9.
