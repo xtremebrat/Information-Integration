@@ -1,0 +1,15 @@
+PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>
+PREFIX dbpprop: <http://dbpedia.org/property/>
+PREFIX dbres: <http://dbpedia.org/resource/>
+PREFIX : <http://dbpedia.org/page>
+
+SELECT ?Campus_type (count(*) as ?counts)
+WHERE {
+{?university a ?x ;
+      dbpedia-owl:type dbpedia:Public_university;
+      dbpedia-owl:campus ?ctype.
+	  ?ctype rdfs:label ?Campus_type.
+    FILTER regex(?x,"UniversitiesAndCollegesInLosAngelesCounty")
+    FILTER(LANGMATCHES(LANG(?Campus_type), "en"))
+      }
+}
