@@ -1,0 +1,16 @@
+PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>
+PREFIX dbpprop: <http://dbpedia.org/property/>
+PREFIX dbres: <http://dbpedia.org/resource/>
+PREFIX : <http://dbpedia.org/page>
+
+SELECT ?University ?student_population
+WHERE {
+{?univ 
+            dbpedia-owl:type dbpedia:Private_university;               
+            dbpedia-owl:city dbpedia:Los_Angeles;
+            rdfs:label ?University;
+            dbpedia-owl:numberOfStudents ?student_population.
+    FILTER(LANGMATCHES(LANG(?University), "en"))
+  }
+} ORDER BY DESC(?student_population)
+LIMIT 10
